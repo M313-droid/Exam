@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10243a"><link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css"><title>SK-CMS Online Examination</title>
+</head>
+<body>
+<header><div><b>SK-CMS</b><span>نظام الامتحانات المباشر</span></div><button id="logout" class="secondary hidden">تسجيل الخروج</button></header>
+<main>
+<section id="login" class="panel">
+<h1>تسجيل الدخول</h1><p>أدخل البريد الإلكتروني وكلمة المرور الخاصة بك.</p>
+<label>البريد الإلكتروني<input id="email" type="email" autocomplete="username"></label>
+<label>كلمة المرور<input id="password" type="password" autocomplete="current-password"></label>
+<button id="loginBtn">دخول</button><p id="loginMsg" class="msg"></p>
+</section>
+<section id="app" class="hidden">
+<div class="welcome"><div><h1 id="hello">مرحباً</h1><p id="roleLine"></p></div><span id="connection" class="pill">متصل</span></div>
+<section id="adminPanel" class="hidden">
+<div class="panel">
+<h2>إنشاء امتحان</h2>
+<label>اسم الامتحان<input id="examTitle" placeholder="مثلاً: امتحان الجيولوجيا"></label>
+<button id="createExam">إنشاء امتحان</button>
+</div>
+<div class="panel">
+<h2>إدارة الحسابات <small>(المدير الرئيسي)</small></h2>
+<div class="two">
+<label>الاسم<input id="newName" placeholder="اسم المستخدم"></label>
+<label>البريد الإلكتروني<input id="newEmail" type="email" placeholder="user@example.com"></label>
+<label>كلمة المرور<input id="newPassword" type="password" placeholder="8 أحرف على الأقل"></label>
+<label>نوع الحساب<select id="newRole"><option value="student">طالب</option><option value="admin">مدير مساعد</option></select></label>
+</div>
+<button id="createUser">إنشاء الحساب</button><p class="hint">الحد الأقصى: 7 مديرين إجمالاً (المدير الرئيسي + 6 مساعدين).</p><p id="userMsg" class="msg"></p>
+</div>
+<div class="panel">
+<h2>الامتحانات</h2><div id="examList">جارٍ التحميل...</div>
+</div>
+<div class="panel hidden" id="editor">
+<h2 id="editorTitle">إعداد الأسئلة</h2>
+<label>نص السؤال<textarea id="qText" rows="3"></textarea></label>
+<div class="two">
+<label>نوع السؤال<select id="qType"><option value="mcq">اختيار من متعدد</option><option value="truefalse">صح أو خطأ</option><option value="short">إجابة قصيرة</option><option value="essay">إجابة مقالية</option></select></label>
+<label>الدرجة<input id="qPoints" type="number" min="1" value="10"></label>
+<label>المدة بالثواني<input id="qDuration" type="number" min="10" value="60"></label>
+</div>
+<div id="optionsBox"><label>الخيارات (كل خيار في سطر)<textarea id="qOptions" rows="4" placeholder="الخيار الأول&#10;الخيار الثاني&#10;الخيار الثالث&#10;الخيار الرابع"></textarea></label></div>
+<label>الإجابة الصحيحة (للتصحيح الآلي)<input id="qCorrect" placeholder="اكتب الخيار الصحيح أو صح/خطأ"></label>
+<button id="addQuestion">إضافة السؤال</button><p id="questionMsg" class="msg"></p>
+<div id="questionList"></div>
+</div>
+<div class="panel hidden" id="monitor">
+<h2>إدارة السؤال المباشر</h2><div id="liveInfo"></div>
+<div class="actions"><button id="closeQuestion" class="danger">انتهت الإجابة / إغلاق السؤال</button><button id="publishResults" class="success">نشر النتائج</button></div>
+<div id="responses"></div>
+</div>
+</section>
+<section id="studentPanel" class="hidden">
+<div class="panel"><h2>الامتحان الحالي</h2><div id="studentExam">بانتظار المدير...</div></div>
+<div class="panel hidden" id="answerPanel">
+<div class="timer" id="timer">--:--</div><h2 id="studentQuestion"></h2><div id="answerInput"></div><button id="sendAnswer">إرسال الإجابة</button><p id="answerMsg" class="msg"></p>
+</div>
+<div class="panel"><h2>نتائج الأسئلة المعلنة</h2><div id="studentResults">لم تُعلن نتائج بعد.</div></div>
+</section>
+</section>
+</main>
+<footer>SK-CMS Online Examination · النسخة التجريبية الأولى</footer>
+<script type="module" src="app.js"></script>
+</body></html>

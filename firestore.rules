@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signed() { return request.auth != null; }
+    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function enabled() { return signed() && userDoc().enabled == true; }
+    function admin() { return enabled() && (userDoc().role == 'mainAdmin' || userDoc().role == 'admin'); }
+    function mainAdmin() { return enabled() && userDoc().role == 'mainAdmin'; }
+
+    match /users/{uid} {
+      allow read: if signed() && (request.auth.uid == uid || mainAdmin() || admin());
+      allow create: if mainAdmin();
+      allow update, delete: if mainAdmin();
+    }
+    match /exams/{examId} {
+      allow read: if admin() || enabled();
+      allow create, update, delete: if admin();
+      match /questions/{qid} {
+        allow read: if admin() || enabled();
+        allow create, update, delete: if admin();
+        match /answerKeys/{keyId} {
+          allow read, write: if admin();
+        }
+        match /responses/{uid} {
+          allow create: if enabled() && request.auth.uid == uid;
+          allow read: if admin() || (enabled() && request.auth.uid == uid);
+          allow update: if admin();
+          allow delete: if admin();
+        }
+        match /results/{uid} {
+          allow read: if enabled();
+          allow write: if admin();
+        }
+      }
+    }
+  }
+}
